@@ -1,0 +1,86 @@
+{% extends "base.html" %} 
+{% block content %}
+
+
+<h1>{{ comp.name }} - Leverte scorekort</h1>
+
+<input type="text" id="filterInput" onkeyup="filterTable('filterInput', 'results-list')" placeholder="Search for names..">
+<table class="pure-table pure-table-striped resultspage__table" id="results-list">
+    <thead>
+        <tr>
+            <th>Skytternummer</th>
+            <th class="resultspage__table-nameCol">Skytter</th>
+            <th>Klasse / Divisjon</td>
+            <th>Scorekort</th>
+            <th>Bildebevis</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for score in scores %}
+    <tr>
+        <td>{{ score.signup.archer_id }}</td>
+        <td class="tableField-name">{{ score.signup.name }}</td>
+        <td class="tableField-class">{{ score.signup.archer_class }}</td>
+        <td><a href="{{ score.scorecard.url }}" target="_blank"><img src="{{ score.scorecard.url }}" class="resultspage__image"></a></td>
+        <td>
+            <a href="{{ score.proof_image1.url }}" target="_blank"><img src="{{ score.proof_image1.url }}" class="resultspage__image"></a>
+            {% if score.proof_image2 %}
+            <a href="{{ score.proof_image2.url }}" target="_blank"><img src="{{ score.proof_image2.url }}" class="resultspage__image"></a>
+            {% endif %}
+            {% if score.proof_image3 %}
+            <a href="{{ score.proof_image3.url }}" target="_blank"><img src="{{ score.proof_image3.url }}" class="resultspage__image"></a>
+            {% endif %}
+            {% if score.proof_image4 %}
+            <a href="{{ score.proof_image4.url }}" target="_blank"><img src="{{ score.proof_image4.url }}" class="resultspage__image"></a>
+            {% endif %}
+        </td>
+    </tr>
+    {% endfor %}
+    </tbody>
+<table>
+{% endblock %}
+
+{% block extrascripts %}
+<script>
+function filterTable(searchElementId, tableElementId) {
+    let input = document.getElementById(searchElementId);
+    let filter = input.value.toUpperCase();
+    let table = document.getElementById(tableElementId);
+    let tbody = table.getElementsByTagName("tbody")[0];
+    let rows = tbody.getElementsByTagName("tr");
+
+    for (i = 0; i < rows.length; i++) {
+        let shouldShowRow = false;
+        let nameTd = rows[i].getElementsByTagName("td")[1];
+        if (nameTd) {
+            let nameTxt = nameTd.textContent || nameTd.innerText;
+            if (nameTxt.toUpperCase().indexOf(filter) > -1) {
+                shouldShowRow = true;
+            }
+        }
+
+        let classTd = rows[i].getElementsByTagName("td")[2];
+        if (classTd) {
+            let classTxt = classTd.textContent || classTd.innerText;
+            if(classTxt.toUpperCase().indexOf(filter) > -1) {
+                shouldShowRow = true;
+            }
+        }
+
+        let archerIdTd = rows[i].getElementsByTagName("td")[0];
+        if (archerIdTd) {
+            let archerIdTxt = archerIdTd.textContent || archerIdTd.innerText;
+            if(archerIdTxt.toUpperCase().indexOf(filter) > -1) {
+                shouldShowRow = true;
+            }
+        }
+        
+        if (shouldShowRow) {
+            rows[i].style.display = "";
+        } else {
+            rows[i].style.display = "none";
+        }
+    }
+}
+</script>
+{% endblock %}

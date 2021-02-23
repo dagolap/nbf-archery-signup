@@ -1,0 +1,41 @@
+{% extends "base.html" %} 
+{% block content %}
+
+<h1>Pågående stevner</h1>
+
+{% if comps %}
+<table class="pure-table pure-table-striped">
+<thead>
+<tr>
+    <th>Stevne</th>
+    <th>Tidspunkt</th>
+    <th>Påmeldingsfrist</th>
+</tr>
+</thead>
+<tbody>
+{% for comp in comps %}
+<tr>
+    <td>
+        {% if comp.signup_deadline < now %}
+            {{ comp }}
+        {% else %}
+            <a href="{{ comp.get_absolute_url }}">{{ comp }}</a>
+        {% endif %}
+    </td>
+    <td>{{ comp.start_date }} - {{ comp.end_date }}</td>
+    <td>
+        {% if comp.signup_deadline < now %}
+            Utgått {{ comp.signup_deadline }}
+        {% else %}
+            {{ comp.signup_deadline }}
+        {% endif %}
+    </td>
+</tr>
+{% endfor %}
+</tbody>
+</table>
+{% else %}
+<p>Ingen åpne stevner</p>
+{% endif %}
+
+{% endblock %} 

@@ -1,0 +1,12 @@
+{% extends "base.html" %} 
+{% block content %}
+
+<h1>{{ signup }} - Resultatlevering</h1>
+
+<form enctype="multipart/form-data" action="{% url 'signups:result_delivery' signup_id=signup.pk %}" method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" value="Send scorekort">
+</form>
+
+{% endblock %}

@@ -1,0 +1,12 @@
+{% extends "base.html" %} 
+{% block content %}
+
+<h1>{{ competition.name }} - Påmelding</h1>
+
+<form action="{% url 'signups:competition' competition_id=competition.pk %}" method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" value="Meld meg på!">
+</form>
+
+{% endblock %} 

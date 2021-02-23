@@ -1,0 +1,33 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Norges Bueskytterforbund - Stevnepåmelding</title>
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/pure/2.0.5/pure-min.css" integrity="sha384-LTIDeidl25h2dPxrB2Ekgc9c7sEC3CWGM6HeFmuDNUjX76Ert4Z4IY714dhZHPLd" crossorigin="anonymous">
+    <link rel="stylesheet" href="{% static 'main.css' %}" />
+  </head>
+
+  <body>
+    <header class="main-header">
+      <div class="main-header__topheading">
+        <img class="main-header__topheading-logo" src="{% static 'WA-Norway-offisiell-landskap.png'%}">
+      </div>
+      <div class="main-header__breadcrumbs">
+        <ul class="main-header__breadcrumbs__links">
+          <li class="main-header__breadcrumbs__link"><a href="{% url 'signups:index' %}">Stevneoversikt</a></li>
+        <ul>
+      </div>
+    </header>
+    <div class="content">
+    {% block content %}
+    {% endblock %}
+    </div>
+
+    {% block extrascripts %}
+    {% endblock %}
+  </body>
+</html>
