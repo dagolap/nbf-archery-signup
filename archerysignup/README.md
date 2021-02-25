@@ -23,11 +23,12 @@ Installation
 DATABASE_URL=sqlite:///db.sqlite3
 SECRET_KEY=<random string>
 MEDIA_ROOT=Sti der media-filer skal lastes opp til og serves fra
-STATIC_ROOT=Sti der webserver serverer statiske filer fra
+STATIC_ROOT=Sti der webserver serverer statiske filer fra (må presenteres under /static)
 ```
 
 ### First time run
 ```shell
+poetry install
 poetry run python manage.py migrate
 poerty run python manage.py createsuperuser
 # <fyll inn svar på spørsmål>
