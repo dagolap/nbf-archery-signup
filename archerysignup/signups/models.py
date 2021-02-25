@@ -65,7 +65,7 @@ class ResultDelivery(models.Model):
     proof_image4 = models.ImageField(_('Bildebevis 4'), upload_to='uploads/proof_images/', null=True, blank=True)
 
     def __str__(self):
-        return "%s - %s - %s" % (self.signup.competition.name, self.signup.name, self.result)
+        return "%s - %s" % (self.signup.competition.name, self.signup.name)
 
     class Meta:
         verbose_name = "Resultat"
