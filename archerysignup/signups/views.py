@@ -27,6 +27,10 @@ def competition_page(request, competition_id):
     return render(request, 'competition.html', {'competition': comp, 'form': form})
 
 def submit_results_page(request, signup_id):
+    previously_delivered = ResultDelivery.objects.filter(signup__pk=signup_id)
+    if len(previously_delivered) > 0:
+        return render(request, 'thanks.html', { 'message': "Dine resultater er allerede mottatt" })
+
     signup = get_object_or_404(Signup, pk=signup_id)
     form = ResultsDeliveryForm(request.POST or None, request.FILES or None)
     if request.method == "POST":
