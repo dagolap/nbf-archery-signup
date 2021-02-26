@@ -12,7 +12,7 @@ jobs:
       - name: Checkout source code
         uses: actions/checkout@v2
         
-      - name: Login via Azure CLI
+      - name: Login to Azure CLI
         uses: azure/login@v1
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
@@ -24,7 +24,9 @@ jobs:
           username: ${{ secrets.REGISTRY_USERNAME }}
           password: ${{ secrets.REGISTRY_PASSWORD }}
       
-      - name: Build and push docker image
+      - name: Build and push docker images
         run: |
-          docker build . --file Dockerfile --tag ${{ secrets.REGISTRY_LOGIN_SERVER }}/nbfsignup:${{ github.sha }}
+          docker build . --file ops/Dockerfile-nbfsignup --tag ${{ secrets.REGISTRY_LOGIN_SERVER }}/nbfsignup:${{ github.sha }}
           docker push ${{ secrets.REGISTRY_LOGIN_SERVER }}/nbfsignup:${{ github.sha }}
+          docker build ./ops --file ops/Dockerfile-nginx --tag ${{ secrets.REGISTRY_LOGIN_SERVER }}/nginx:${{ github.sha }}
+          docker push ${{ secrets.REGISTRY_LOGIN_SERVER }}/nginx:${{ github.sha }}
