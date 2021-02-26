@@ -3,8 +3,6 @@ name: Docker to Azure CI
 on:
   push:
     branches: [ master ]
-  pull_request:
-    branches: [ master ]
 
 jobs:
   build-and-deploy:
@@ -16,9 +14,10 @@ jobs:
       
       - name: Azure registry login
         uses: docker/login-action@v1.8.0
-        registry: ${{ secrets.REGISTRY_LOGIN_SERVER }}
-        username: ${{ secrets.REGISTRY_USERNAME }}
-        password: ${{ secrets.REGISTRY_PASSWORD }}
+        with:
+          registry: ${{ secrets.REGISTRY_LOGIN_SERVER }}
+          username: ${{ secrets.REGISTRY_USERNAME }}
+          password: ${{ secrets.REGISTRY_PASSWORD }}
       
       - name: Build the Docker image
         run: |
