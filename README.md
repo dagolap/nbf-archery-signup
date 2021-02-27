@@ -32,3 +32,6 @@ docker-compose up
 For et produksjonsmiljø kreves det at man setter en del environment-variabler.
 
 Se i compose-filen for hvilke dette er.
+
+
+
