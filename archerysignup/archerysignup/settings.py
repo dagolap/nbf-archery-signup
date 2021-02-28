@@ -75,6 +75,10 @@ WSGI_APPLICATION = 'archerysignup.wsgi.application'
 DATABASES = {
     'default': env.db('DATABASE_URL')
 }
+if env.bool("DATABASE_SSL", default=False) == True:
+    DATABASES['default']['OPTIONS'] = {
+        'ssl': True
+    }
 
 
 # Password validation

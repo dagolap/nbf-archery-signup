@@ -22,6 +22,7 @@ services:
       - DJANGO_SUPERUSER_PASSWORD=test
       - SECRET_KEY=kjaskdja
       - DATABASE_URL=mysql://nbfsignup:nbfsignup@db:3306/nbfsignup
+      - DATABASE_SSL=True
       - ALLOWED_HOSTS=localhost
       - STATIC_ROOT=/staticfiles
       - MEDIA_ROOT=/mediafiles
