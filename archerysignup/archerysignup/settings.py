@@ -1,10 +1,17 @@
 import environ
 
 from pathlib import Path
+from email.utils import getaddresses
 
 env = environ.Env()
 environ.Env.read_env()
 
+# Admins list and email setup
+ADMINS = getaddresses(env.list("ADMINS", default=[]))
+if (env.bool('MAIL_ENABLED', default=False)):
+    EMAIL_CONFIG = env.email_url('MAIL_URL')
+    SERVER_EMAIL = env.str("SERVER_EMAIL")
+    vars().update(EMAIL_CONFIG)
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
