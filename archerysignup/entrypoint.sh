@@ -13,6 +13,9 @@ if [[ -z "$DJANGO_SUPERUSER_PASSWORD" ]]; then
   exit 1
 fi
 
+echo "Sleeping a bit so DB will be up in a docker-compose setting."
+sleep 5
+
 poetry run python manage.py migrate
 poetry run python manage.py createsuperuser --noinput --username $DJANGO_SUPERUSER_USERNAME  --email $DJANGO_SUPERUSER_EMAIL
 poetry run python manage.py collectstatic --noinput
