@@ -116,6 +116,14 @@ USE_TZ = True
 MEDIA_URL = '/mediafiles/'
 STATIC_URL = '/staticfiles/'
 
+
 # File paths
+
 MEDIA_ROOT = env.str('MEDIA_ROOT', default='')
 STATIC_ROOT = env.str('STATIC_ROOT', default=None)
+
+
+# Setup support for proxy headers
+
+USE_X_FORWARDED_HOST = True
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
