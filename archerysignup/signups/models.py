@@ -14,6 +14,7 @@ class ArcherClass(models.Model):
     class Meta:
         verbose_name = "Konkurranseklasse"
         verbose_name_plural = "Konkurranseklasser"
+        ordering = ('code',)
 
 # Create your models here.
 class Competition(models.Model):
