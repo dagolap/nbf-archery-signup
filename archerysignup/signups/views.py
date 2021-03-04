@@ -60,12 +60,12 @@ def competition_participants_csv(request, competition_id):
     comp = Competition.objects.get(pk=competition_id)
     
     participants = Signup.objects.filter(competition__id=competition_id)
-    response = HttpResponse(content_type='text/csv')
+    response = HttpResponse(content_type='text/csv; charset=utf-8')
     response['Content-Disposition'] = 'attachment; filename="%s-deltakere.csv"' % (comp.name)
 
     writer = csv.writer(response)
     for p in participants:
-        writer.writerow([p.archer_id, p.name, p.email, p.archer_class, request.build_absolute_uri(p.get_score_submission_url())])
+        writer.writerow([p.archer_id, p.name, p.email, p.archer_class.code, p.archer_class.description, request.build_absolute_uri(p.get_score_submission_url())])
 
     return response
 
