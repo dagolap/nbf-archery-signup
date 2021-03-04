@@ -27,9 +27,13 @@ jobs:
       - name: Build and push docker images
         run: |
           docker build . --file ops/Dockerfile-nbfsignup --tag ${{ secrets.REGISTRY_LOGIN_SERVER }}/nbfsignup:${{ github.sha }} --tag ${{ secrets.REGISTRY_LOGIN_SERVER }}/nbfsignup:1.${{ github.run_number }}.0 --tag ${{ secrets.REGISTRY_LOGIN_SERVER }}/nbfsignup:latest
-          docker push --all-tags ${{ secrets.REGISTRY_LOGIN_SERVER }}/nbfsignup:${{ github.sha }}
+          docker push ${{ secrets.REGISTRY_LOGIN_SERVER }}/nbfsignup:${{ github.sha }}
+          docker push ${{ secrets.REGISTRY_LOGIN_SERVER }}/nbfsignup:1.${{ github.run_number }}.0
+          docker push ${{ secrets.REGISTRY_LOGIN_SERVER }}/nbfsignup:latest
           docker build ./ops --file ops/Dockerfile-nginx --tag ${{ secrets.REGISTRY_LOGIN_SERVER }}/nginx:${{ github.sha }} --tag ${{ secrets.REGISTRY_LOGIN_SERVER }}/nginx:1.${{ github.run_number }}.0 --tag ${{ secrets.REGISTRY_LOGIN_SERVER }}/nginx:latest
-          docker push --all-tags ${{ secrets.REGISTRY_LOGIN_SERVER }}/nginx:${{ github.sha }}
+          docker push ${{ secrets.REGISTRY_LOGIN_SERVER }}/nginx:${{ github.sha }}
+          docker push ${{ secrets.REGISTRY_LOGIN_SERVER }}/nginx:1.${{ github.run_number }}.0
+          docker push ${{ secrets.REGISTRY_LOGIN_SERVER }}/nginx:latest
       
       - name: Output version info
         run: |
