@@ -12,7 +12,7 @@ COPY . ./
 
 RUN pip install "poetry==$POETRY_VERSION"
 
-RUN poetry install
+RUN poetry install --no-dev
 
 WORKDIR /app/archerysignup
 
