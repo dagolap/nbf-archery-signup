@@ -1,3 +1,5 @@
+import codecs
+
 from datetime import datetime
 
 from django.shortcuts import render, get_object_or_404
@@ -62,6 +64,8 @@ def competition_participants_csv(request, competition_id):
     participants = Signup.objects.filter(competition__id=competition_id)
     response = HttpResponse(content_type='text/csv; charset=utf-8')
     response['Content-Disposition'] = 'attachment; filename="%s-deltakere.csv"' % (comp.name)
+
+    response.write(codecs.BOM_UTF8)
 
     writer = csv.writer(response)
     for p in participants:
