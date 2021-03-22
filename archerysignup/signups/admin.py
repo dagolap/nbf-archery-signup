@@ -5,7 +5,12 @@ from django.utils.translation import ugettext_lazy as _
 from django.utils.html import format_html
 from django.urls import reverse
 
+from sorl.thumbnail.admin import AdminImageMixin
+
 from .models import Competition, ArcherClass, Signup, ResultDelivery
+
+class ResultDeliveryAdmin(AdminImageMixin, admin.ModelAdmin):
+    model = ResultDelivery
 
 class SignupInline(admin.TabularInline):
     model = Signup
@@ -33,7 +38,7 @@ class CompetitionAdmin(admin.ModelAdmin):
 admin.site.register(Competition, CompetitionAdmin)
 admin.site.register(ArcherClass)
 admin.site.register(Signup)
-admin.site.register(ResultDelivery)
+admin.site.register(ResultDelivery, ResultDeliveryAdmin)
 
 # Unregistering deafult models that we will not be using
 # admin.site.unregister(Group)

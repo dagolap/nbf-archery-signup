@@ -4,6 +4,8 @@ from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from django.urls import reverse
 
+from sorl.thumbnail import ImageField
+
 class ArcherClass(models.Model):
     code = models.CharField(_('Klassekode'), max_length=10)
     description = models.CharField(_('Klassenavn'), max_length=50)
@@ -60,11 +62,11 @@ class Signup(models.Model):
 
 class ResultDelivery(models.Model):
     signup = models.ForeignKey("signups.Signup", verbose_name=_("Påmelding"), on_delete=models.CASCADE)
-    scorecard = models.ImageField(_('Scorekort'), upload_to='uploads/scorecards/', null=False, blank=False)
-    proof_image1 = models.ImageField(_('Bildebevis 1'), upload_to='uploads/proof_images/', null=False, blank=False)
-    proof_image2 = models.ImageField(_('Bildebevis 2'), upload_to='uploads/proof_images/', null=True, blank=True)
-    proof_image3 = models.ImageField(_('Bildebevis 3'), upload_to='uploads/proof_images/', null=True, blank=True)
-    proof_image4 = models.ImageField(_('Bildebevis 4'), upload_to='uploads/proof_images/', null=True, blank=True)
+    scorecard = ImageField(_('Scorekort'), upload_to='uploads/scorecards/', null=False, blank=False)
+    proof_image1 = ImageField(_('Bildebevis 1'), upload_to='uploads/proof_images/', null=False, blank=False)
+    proof_image2 = ImageField(_('Bildebevis 2'), upload_to='uploads/proof_images/', null=True, blank=True)
+    proof_image3 = ImageField(_('Bildebevis 3'), upload_to='uploads/proof_images/', null=True, blank=True)
+    proof_image4 = ImageField(_('Bildebevis 4'), upload_to='uploads/proof_images/', null=True, blank=True)
 
     def __str__(self):
         return "%s - %s" % (self.signup.competition.name, self.signup.name)
