@@ -1,10 +1,14 @@
 import uuid
+import logging
 
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from django.urls import reverse
 
-from sorl.thumbnail import ImageField
+from sorl.thumbnail import ImageField, get_thumbnail
+
+logger = logging.getLogger(__name__)
+
 
 class ArcherClass(models.Model):
     code = models.CharField(_('Klassekode'), max_length=10)
@@ -51,7 +55,7 @@ class Signup(models.Model):
 
     def __str__(self):
         return "%s - %s - %s" % (self.competition, self.archer_class, self.name)
-    
+
     def get_score_submission_url(self):
         return reverse("signups:result_delivery", kwargs={"signup_id": self.id})
 
@@ -70,6 +74,22 @@ class ResultDelivery(models.Model):
 
     def __str__(self):
         return "%s - %s" % (self.signup.competition.name, self.signup.name)
+
+    def save(self, *args, **kwargs):
+        super(ResultDelivery, self).save(*args, **kwargs)
+        try:
+            if self.scorecard:
+                get_thumbnail(self.scorecard, "100x100")
+            if self.proof_image1:
+                get_thumbnail(self.proof_image1, "100x100")
+            if self.proof_image2:
+                get_thumbnail(self.proof_image2, "100x100")
+            if self.proof_image3:
+                get_thumbnail(self.proof_image3, "100x100")
+            if self.proof_image4:
+                get_thumbnail(self.proof_image4, "100x100")
+        except Exception as e:
+            logger.error("Could not generate image thumbnails during save:", e)
 
     class Meta:
         verbose_name = "Resultat"
