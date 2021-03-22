@@ -56,6 +56,7 @@ class Signup(models.Model):
     class Meta:
         verbose_name = "Påmelding"
         verbose_name_plural = "Påmeldinger"
+        ordering = ('archer_id',)
 
 class ResultDelivery(models.Model):
     signup = models.ForeignKey("signups.Signup", verbose_name=_("Påmelding"), on_delete=models.CASCADE)
