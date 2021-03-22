@@ -111,7 +111,7 @@ def submitted_scores(request, competition_id):
     if not request.user.has_perm("signups.view_competition"):
         return HttpResponseForbidden()
 
+    comp = get_object_or_404(Competition, pk=competition_id)
     scores = ResultDelivery.objects.select_related('signup').filter(signup__competition_id=competition_id).order_by('signup__archer_id')
-    comp = Competition.objects.get(pk=competition_id)
 
     return render(request, "results.html", {'scores': scores, 'comp': comp})
