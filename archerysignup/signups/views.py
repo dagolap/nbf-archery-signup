@@ -3,6 +3,7 @@ import logging
 
 from datetime import datetime
 
+from django.conf import settings
 from django.core.mail import send_mail
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse, Http404, HttpResponseForbidden, HttpResponseBadRequest, HttpResponseRedirect
@@ -34,7 +35,7 @@ def competition_page(request, competition_id):
                 send_mail(
                     'Påmeldingsbekreftelse %s' % (comp.name),
                     'Vi bekrefter din påmelding til stevnet %s.\n\nNår stevnedato nærmer seg vil du motta epost med videre informasjon om gjennomføring og resultatleveranse, samt scorekort.\n\n\nLykke til på stevnet,\n\nNorges Bueskytterforbund' % (comp.name),
-                    'NBF Stevnepåmelding <noreply@bueskyting.no>',
+                    'NBF Stevnepåmelding <%s>' % (settings.SERVER_EMAIL),
                     ['%s <%s>' % (name, email)],
                     fail_silently=False,
                 )
@@ -71,7 +72,7 @@ def submit_results_page(request, signup_id):
                 send_mail(
                     'Resultatbevis mottatt for %s' % (signup.competition.name),
                     'Vi bekrefter å ha mottatt dokumentasjon i forbindelse med din deltakelse på stevnet %s.\n\nTakk for at du deltok.\n\n\nMvh,\n\nNorges Bueskytterforbund' % (signup.competition.name),
-                    'NBF Stevnepåmelding <noreply@bueskyting.no>',
+                    'NBF Stevnepåmelding <%s>' % (settings.SERVER_EMAIL),
                     ['%s <%s>' % (signup.name, signup.email)],
                     fail_silently=False,
                 )
