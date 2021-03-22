@@ -68,3 +68,7 @@ body {
     width: 300px;
     object-fit: cover;
 }
+
+.resultspage__searchbox {
+    margin: 0 0 10px 0;
+}
