@@ -284,6 +284,14 @@ optional = false
 python-versions = "*"
 
 [[package]]
+name = "sorl-thumbnail"
+version = "12.7.0"
+description = "Thumbnails for Django"
+category = "main"
+optional = false
+python-versions = ">=3.4"
+
+[[package]]
 name = "sqlparse"
 version = "0.4.1"
 description = "A non-validating SQL parser."
@@ -332,7 +340,7 @@ python-versions = "*"
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.8"
-content-hash = "39323c8f5c21a8351b036ef96ef930e7acfea6edf9467e45f3aa9e33735280c7"
+content-hash = "122514bf6b5566dfbe2e677087780c65e3f695224c6d55908c56335b1dea0048"
 
 [metadata.files]
 appnope = [
@@ -527,6 +535,10 @@ pylint = [
 pytz = [
     {file = "pytz-2021.1-py2.py3-none-any.whl", hash = "sha256:eb10ce3e7736052ed3623d49975ce333bcd712c7bb19a58b9e2089d4057d0798"},
     {file = "pytz-2021.1.tar.gz", hash = "sha256:83a4a90894bf38e243cf052c8b58f381bfe9a7a483f6a9cab140bc7f702ac4da"},
+]
+sorl-thumbnail = [
+    {file = "sorl-thumbnail-12.7.0.tar.gz", hash = "sha256:fbe6dfd66a1aceb7e0203895ff5622775e50266f8d8cfd841fe1500bd3e19018"},
+    {file = "sorl_thumbnail-12.7.0-py3-none-any.whl", hash = "sha256:c56cd651feab3bdc415d5301600198e2e70c08234dad48b8f6cfa4746cc102c7"},
 ]
 sqlparse = [
     {file = "sqlparse-0.4.1-py3-none-any.whl", hash = "sha256:017cde379adbd6a1f15a61873f43e8274179378e95ef3fede90b5aa64d304ed0"},

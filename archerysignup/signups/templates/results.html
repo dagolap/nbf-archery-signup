@@ -1,10 +1,13 @@
-{% extends "base.html" %} 
+{% extends "base.html" %}
+
+{% load thumbnail %}
+
 {% block content %}
 
 
 <h1>{{ comp.name }} - Leverte scorekort</h1>
 
-<input type="text" id="filterInput" onkeyup="filterTable('filterInput', 'results-list')" placeholder="Search for names..">
+<input type="text" id="filterInput" onkeyup="filterTable('filterInput', 'results-list')" placeholder="Søk...">
 <table class="pure-table pure-table-striped resultspage__table" id="results-list">
     <thead>
         <tr>
@@ -21,17 +24,29 @@
         <td>{{ score.signup.archer_id }}</td>
         <td class="tableField-name">{{ score.signup.name }}</td>
         <td class="tableField-class">{{ score.signup.archer_class }}</td>
-        <td><a href="{{ score.scorecard.url }}" target="_blank"><img src="{{ score.scorecard.url }}" class="resultspage__image"></a></td>
         <td>
-            <a href="{{ score.proof_image1.url }}" target="_blank"><img src="{{ score.proof_image1.url }}" class="resultspage__image"></a>
+            {% thumbnail score.scorecard "100x100" crop="center" as im %}
+                <a href="{{ score.scorecard.url }}" target="_blank"><img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}"></a>
+            {% endthumbnail %}
+        </td>
+        <td>
+            {% thumbnail score.proof_image1 "100x100" crop="center" as im %}
+                 <a href="{{ score.proof_image1.url }}" target="_blank"><img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}"></a>
+            {% endthumbnail %}
             {% if score.proof_image2 %}
-            <a href="{{ score.proof_image2.url }}" target="_blank"><img src="{{ score.proof_image2.url }}" class="resultspage__image"></a>
+                {% thumbnail score.proof_image2 "100x100" crop="center" as im %}
+                    <a href="{{ score.proof_image2.url }}" target="_blank"><img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}"></a>
+                {% endthumbnail %}
             {% endif %}
             {% if score.proof_image3 %}
-            <a href="{{ score.proof_image3.url }}" target="_blank"><img src="{{ score.proof_image3.url }}" class="resultspage__image"></a>
+                {% thumbnail score.proof_image3 "100x100" crop="center" as im %}
+                    <a href="{{ score.proof_image3.url }}" target="_blank"><img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}"></a>
+                {% endthumbnail %}
             {% endif %}
             {% if score.proof_image4 %}
-            <a href="{{ score.proof_image4.url }}" target="_blank"><img src="{{ score.proof_image4.url }}" class="resultspage__image"></a>
+                {% thumbnail score.proof_image4 "100x100" crop="center" as im %}
+                    <a href="{{ score.proof_image4.url }}" target="_blank"><img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}"></a>
+                {% endthumbnail %}
             {% endif %}
         </td>
     </tr>
