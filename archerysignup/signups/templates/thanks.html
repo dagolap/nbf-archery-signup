@@ -1,7 +1,7 @@
 {% extends "base.html" %} 
 {% block content %}
 
-<h1>Takk!</h1>
+<h1>{{ title|default:"Takk!" }}</h1>
 
 <p>
 {{ message }}

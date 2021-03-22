@@ -34,6 +34,10 @@ def submit_results_page(request, signup_id):
         return render(request, 'thanks.html', { 'message': "Dine resultater er allerede mottatt" })
 
     signup = get_object_or_404(Signup, pk=signup_id)
+
+    if signup.competition.end_date < timezone.now():
+        return render(request, "thanks.html", { "title": "Dessverre", "message": "Frist for innsending av scorekort er utgått." })
+
     form = ResultsDeliveryForm(request.POST or None, request.FILES or None)
     if request.method == "POST":
         if (form.is_valid()):
