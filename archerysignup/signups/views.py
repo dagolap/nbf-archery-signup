@@ -1,7 +1,9 @@
 import codecs
+import logging
 
 from datetime import datetime
 
+from django.core.mail import send_mail
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse, Http404, HttpResponseForbidden, HttpResponseBadRequest, HttpResponseRedirect
 from django.urls import reverse
@@ -11,6 +13,8 @@ import csv
 from .models import Competition, Signup, ResultDelivery
 from .forms import SignupForm, ResultsDeliveryForm
 
+logger = logging.getLogger(__name__)
+
 def competition_page(request, competition_id):
     comp = get_object_or_404(Competition, pk=competition_id)
     form = SignupForm(request.POST or None, competition_id=competition_id)
@@ -18,13 +22,26 @@ def competition_page(request, competition_id):
         return render(request, 'thanks.html', { 'message': "Men... påmeldingsfristen er dessverre utgått"})
     if request.method == "POST":
         if form.is_valid():
+            name = form.cleaned_data['name']
+            email = form.cleaned_data['email']
             Signup.objects.create(
-                name=form.cleaned_data['name'],
+                name=name,
                 competition_id=competition_id,
                 archer_id=form.cleaned_data['archer_id'],
-                email=form.cleaned_data['email'],
+                email=email,
                 archer_class=form.cleaned_data['archer_class'])
-            return render(request, "thanks.html", { 'message': "Din påmelding er mottatt." })
+            try:
+                send_mail(
+                    'Påmeldingsbekreftelse %s' % (comp.name),
+                    'Vi bekrefter din påmelding til stevnet %s.\n\nNår stevnedato nærmer seg vil du motta epost med videre informasjon om gjennomføring og resultatleveranse, samt scorekort.\n\n\nLykke til på stevnet,\n\nNorges Bueskytterforbund' % (comp.name),
+                    'NBF Stevnepåmelding <noreply@bueskyting.no>',
+                    ['%s <%s>' % (name, email)],
+                    fail_silently=False,
+                )
+                return render(request, "thanks.html", { 'message': "Din påmelding er mottatt. Bekreftelse og videre informasjon har blitt sendt til oppgitt epost-adresse." })
+            except Exception as e:
+                logger.error("Could not send email during signup confirmation: ", e)
+                return render(request, "thanks.html", { 'message': "Din påmelding er mottatt. På grunn av en teknisk feil klarte vi dessverre ikke å sende deg en epostbekreftelse, men du er nå påmeldt - vi lover." })
 
     return render(request, 'competition.html', {'competition': comp, 'form': form})
 
@@ -49,7 +66,19 @@ def submit_results_page(request, signup_id):
                 proof_image3=request.FILES.get('proof_image3', None),
                 proof_image4=request.FILES.get('proof_image4', None)
             )
-            return render(request, "thanks.html", { 'message': "Dine resultater er mottatt." })
+            try:
+
+                send_mail(
+                    'Resultatbevis mottatt for %s' % (signup.competition.name),
+                    'Vi bekrefter å ha mottatt dokumentasjon i forbindelse med din deltakelse på stevnet %s.\n\nTakk for at du deltok.\n\n\nMvh,\n\nNorges Bueskytterforbund' % (signup.competition.name),
+                    'NBF Stevnepåmelding <noreply@bueskyting.no>',
+                    ['%s <%s>' % (signup.name, signup.email)],
+                    fail_silently=False,
+                )
+                return render(request, "thanks.html", { 'message': "Dine resultater er mottatt. En epost med bekreftelse er sendt til din epost." })
+            except Exception as e:
+                logger.error("Could not send email during results delivery: ", e)
+                return render(request, "thanks.html", { 'message': "Dine resultater er mottatt. På grunn av en teknisk feil klarte vi dessverre ikke å sende deg en epostbekreftelse, men vi har mottatt alt vi trenger - tusen takk." })
 
     return render(request, 'result_delivery.html', { 'form': form, 'signup': signup })
 
