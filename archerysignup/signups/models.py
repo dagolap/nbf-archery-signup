@@ -79,15 +79,15 @@ class ResultDelivery(models.Model):
         super(ResultDelivery, self).save(*args, **kwargs)
         try:
             if self.scorecard:
-                get_thumbnail(self.scorecard, "100x100")
+                get_thumbnail(self.scorecard, "100x100", crop="center")
             if self.proof_image1:
-                get_thumbnail(self.proof_image1, "100x100")
+                get_thumbnail(self.proof_image1, "100x100", crop="center")
             if self.proof_image2:
-                get_thumbnail(self.proof_image2, "100x100")
+                get_thumbnail(self.proof_image2, "100x100", crop="center")
             if self.proof_image3:
-                get_thumbnail(self.proof_image3, "100x100")
+                get_thumbnail(self.proof_image3, "100x100", crop="center")
             if self.proof_image4:
-                get_thumbnail(self.proof_image4, "100x100")
+                get_thumbnail(self.proof_image4, "100x100", crop="center")
         except Exception as e:
             logger.error("Could not generate image thumbnails during save:", e)
 
