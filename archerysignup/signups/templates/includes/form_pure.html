@@ -1,0 +1,28 @@
+{% for hidden_field in form.hidden_fields %}
+  {{ hidden_field }}
+{% endfor %}
+
+{% if form.non_field_errors %}
+  <div class="alert alert-danger" role="alert">
+    {% for error in form.non_field_errors %}
+      {{ error }}
+    {% endfor %}
+  </div>
+{% endif %}
+
+<fieldset>
+{% for field in form.visible_fields %}
+    <div class="pure-control-group">
+        {{ field.label_tag }}
+        {{ field }}
+        {% if field.help_text %}
+            <span class="pure-form-message-inline">{{ field.help_text }}</span>
+        {% endif %}
+        {% for error in field.errors %}
+            <span class="form__invalidfeedback pure-form-message-inline">
+                {{ error }}
+            </span>
+        {% endfor %}
+    </div>
+{% endfor %}
+</fieldset>

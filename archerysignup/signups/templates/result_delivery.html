@@ -3,10 +3,12 @@
 
 <h1>{{ signup }} - Resultatlevering</h1>
 
-<form enctype="multipart/form-data" action="{% url 'signups:result_delivery' signup_id=signup.pk %}" method="post">
+<form class="pure-form pure-form-aligned" enctype="multipart/form-data" action="{% url 'signups:result_delivery' signup_id=signup.pk %}" method="post">
     {% csrf_token %}
-    {{ form.as_p }}
-    <input type="submit" value="Send scorekort">
+    {% include "includes/form_pure.html" with form=form %}
+    <div class="pure-controls">
+        <input type="submit" value="Send scorekort" class="pure-button pure-button-primary">
+    </div>
 </form>
 
 {% endblock %}

@@ -3,10 +3,12 @@
 
 <h1>{{ competition.name }} - Påmelding</h1>
 
-<form action="{% url 'signups:competition' competition_id=competition.pk %}" method="post">
+<form class="pure-form pure-form-aligned" action="{% url 'signups:competition' competition_id=competition.pk %}" method="post">
     {% csrf_token %}
-    {{ form.as_p }}
-    <input type="submit" value="Meld meg på!">
+    {% include "includes/form_pure.html" with form=form %}
+    <div class="pure-controls">
+        <input type="submit" value="Meld meg på!" class="pure-button pure-button-primary">
+    </div>
 </form>
 
 {% endblock %} 
