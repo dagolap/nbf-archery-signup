@@ -47,7 +47,7 @@ class Competition(models.Model):
 
 class Signup(models.Model):
     id = models.UUIDField(_('UUID'), primary_key=True, default=uuid.uuid4, editable=False)
-    archer_id = models.CharField(_('IANSEO-nummer'), max_length=10)
+    archer_id = models.CharField(_('Skytternummer'), max_length=10)
     competition = models.ForeignKey("signups.Competition", verbose_name=_("Konkurranse"), on_delete=models.CASCADE)
     name = models.CharField(_('Navn'), max_length=100)
     email = models.EmailField(_('E-post'), max_length=254)
